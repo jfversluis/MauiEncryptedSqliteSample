@@ -13,9 +13,11 @@ namespace MauiEncryptedSqliteSample
                 return;
             }
 
-            _database = new SQLiteAsyncConnection(_databasePath);
-            //var options = new SQLiteConnectionString(dbPath, true, key: "password", postKeyAction: c => { c.Execute("PRAGMA cipher_compatibility = 3"); });
-            //_database = new SQLiteAsyncConnection(options);
+            var options = new SQLiteConnectionString(_databasePath, true, "password", postKeyAction: c =>
+            {
+                c.Execute("PRAGMA cipher_compatibility = 3");
+            });
+            _database = new SQLiteAsyncConnection(options);
             await _database.CreateTableAsync<Person>();
         }
 
